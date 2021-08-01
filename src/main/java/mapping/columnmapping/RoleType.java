@@ -1,4 +1,4 @@
-package jpabasic.primarykeymapping;
+package mapping.columnmapping;
 
 public enum RoleType {
     USER,ADMIN

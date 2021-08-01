@@ -1,4 +1,4 @@
-package jpabasic.primarykeymapping;
+package mapping.primarykeymapping;
 
 import javax.persistence.*;
 

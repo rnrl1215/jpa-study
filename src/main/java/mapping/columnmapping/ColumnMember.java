@@ -1,4 +1,4 @@
-package jpabasic.columnmapping;
+package mapping.columnmapping;
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package jpabasic.tablemapping;
+package mapping.tablemapping;
 
 import javax.persistence.*;
 

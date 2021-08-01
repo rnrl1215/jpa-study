@@ -1,11 +1,11 @@
-package jpabasic.columnmapping;
+package mapping.primarykeymapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class ColumnMappingEx {
+public class PrimaryKeyMappingEx {
     public static void main(String[] args) {
         // persistence.xml 의 persistence-unit name="hello" 를 넘긴다.
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
@@ -20,9 +20,9 @@ public class ColumnMappingEx {
 
         // exception 처리를 위해 try catch 문을 반드시 사용해야된다.
         try {
-            ColumnMember member = new ColumnMember(1L,"Hello");
+            PrimaryMember member = new PrimaryMember();
+            member.setUsername("C");
             em.persist(member);
-
             // 커밋시 insert sql을 보낸다.
             tx.commit();
         } catch (Exception e) {

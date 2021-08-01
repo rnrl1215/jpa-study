@@ -18,16 +18,16 @@ public class Order {
     @Column(name = "MEMBER_ID")
     private Long memberId;
 
-    //객체지향스럽게 멤버를 정의한다.
-    private Member member;
+    //객체지향스럽게 멤버를 정의한다
+    //private Member member;
 
-    public Member getMember() {
-        return member;
-    }
+    //public Member getMember() {
+    //    return member;
+    //}
 
-    public void setMember(Member member) {
-        this.member = member;
-    }
+    //public void setMember(Member member) {
+    //    this.member = member;
+    //}
 
     //DB 에 저장되는 컬럼 관례는 다음과 같다.
     // ORDER_DATA 또는 order_date

@@ -1,11 +1,11 @@
-package relationmapping;
+package simplexmapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class RelationMappingEx {
+public class SimplexMappingEx {
     public static void main(String[] args) {
         // persistence.xml 의 persistence-unit name="hello" 를 넘긴다.
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
@@ -20,9 +20,9 @@ public class RelationMappingEx {
 
         // exception 처리를 위해 try catch 문을 반드시 사용해야된다.
         try {
-            Team team = new Team();
-            team.setName("TeamA");
-            em.persist(team);
+            SimplexTeam simplexTeam = new SimplexTeam();
+            simplexTeam.setName("TeamA");
+            em.persist(simplexTeam);
 
 
             // 문제1
@@ -40,9 +40,9 @@ public class RelationMappingEx {
             //Team findTeam = em.find(Team.class, findMember.getTeamId());
 
             // 수정코드
-            RelationMember member = new RelationMember();
+            SimplexMember member = new SimplexMember();
             member.setUsername("member1");
-            member.setTeam(team);
+            member.setTeam(simplexTeam);
             em.persist(member);
 
             // select 쿼리를 보고 싶을때
@@ -51,14 +51,14 @@ public class RelationMappingEx {
                         // 그래야 아래 에서 셀렉트 쿼리가 나간다.
 
             // 조회시 수정코드
-            RelationMember findMember = em.find(RelationMember.class, member.getId());
-            Team findTeam = findMember.getTeam();
+            SimplexMember findMember = em.find(SimplexMember.class, member.getId());
+            SimplexTeam findSimplexTeam = findMember.getTeam();
             System.out.println("username: "+findMember.getUsername());
 
             // 수정
             // 변경만 하면 DB 값이 변경된다.
-            Team newTeam = em.find(Team.class, 100L);
-            findMember.setTeam(newTeam);
+            SimplexTeam newSimplexTeam = em.find(SimplexTeam.class, 100L);
+            findMember.setTeam(newSimplexTeam);
 
             tx.commit();
         } catch (Exception e) {

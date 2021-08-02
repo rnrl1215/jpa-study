@@ -1,5 +1,4 @@
-package relationmapping;
-
+package simplexmapping;
 
 import javax.persistence.*;
 
@@ -7,7 +6,7 @@ import javax.persistence.*;
 // JPA가 로딩 될때 해당 어노테이션을 보고 인식한다.
 @Entity
 //@Table(name = "USER") // 테이블명 지정
-public class RelationMember {
+public class SimplexMember {
 
     @Id //PK 설정
     @GeneratedValue
@@ -34,14 +33,14 @@ public class RelationMember {
     // 그럼 DB 와 객체를 맵핑해준것이다
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
-    private Team team;
+    private SimplexTeam simplexTeam;
 
-    public Team getTeam() {
-        return team;
+    public SimplexTeam getTeam() {
+        return simplexTeam;
     }
 
-    public void setTeam(Team team) {
-        this.team = team;
+    public void setTeam(SimplexTeam simplexTeam) {
+        this.simplexTeam = simplexTeam;
     }
 
     public void setId(Long id) {

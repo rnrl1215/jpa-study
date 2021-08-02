@@ -1,4 +1,4 @@
-package relationmapping;
+package simplexmapping;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,7 +7,7 @@ import javax.persistence.Id;
 
 
 @Entity
-public class Team {
+public class SimplexTeam {
 
     @Id
     @GeneratedValue

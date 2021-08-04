@@ -1,6 +1,9 @@
 package jpabook.jpashop;
 
 
+import jpabook.jpashop.domain.Order;
+import jpabook.jpashop.domain.OrderItem;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -21,6 +24,9 @@ public class jpaMain {
 
         // exception 처리를 위해 try catch 문을 반드시 사용해야된다.
         try {
+            Order order = new Order();
+            order.addOrderItem(new OrderItem());
+
             // 커밋시 insert sql을 보낸다.
             tx.commit();
         } catch (Exception e) {

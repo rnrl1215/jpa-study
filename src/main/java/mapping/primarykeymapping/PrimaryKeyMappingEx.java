@@ -7,6 +7,7 @@ import javax.persistence.Persistence;
 
 public class PrimaryKeyMappingEx {
     public static void main(String[] args) {
+        /*
         // persistence.xml 의 persistence-unit name="hello" 를 넘긴다.
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
@@ -24,12 +25,14 @@ public class PrimaryKeyMappingEx {
             member.setUsername("C");
             em.persist(member);
             // 커밋시 insert sql을 보낸다.
-            tx.commit();
+        //    tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
             em.close();
         }
         emf.close();
+
+         */
     }
 }

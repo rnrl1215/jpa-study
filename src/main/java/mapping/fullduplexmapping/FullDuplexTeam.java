@@ -1,4 +1,4 @@
-package fullduplexmapping;
+package mapping.fullduplexmapping;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package fullduplexmapping;
+package mapping.fullduplexmapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -8,6 +8,7 @@ import java.util.List;
 
 public class FullDuplexMappingEx {
     public static void main(String[] args) {
+        /*
         // persistence.xml 의 persistence-unit name="hello" 를 넘긴다.
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
@@ -55,12 +56,14 @@ public class FullDuplexMappingEx {
                 System.out.println("m: " + m.getUsername());
             }
 
-            tx.commit();
+            //tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
             em.close();
         }
         emf.close();
+
+         */
     }
 }

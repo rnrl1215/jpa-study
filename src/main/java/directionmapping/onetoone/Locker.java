@@ -1,18 +1,16 @@
-package simplexmapping;
+package directionmapping.onetoone;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
+import javax.persistence.*;
 
 @Entity
-public class SimplexTeam {
-
-    @Id
-    @GeneratedValue
-    @Column(name = "TEAM_ID")
+public class Locker {
+    @Id @GeneratedValue
+    @Column(name = "OTO_LOCKER_ID")
     private Long id;
+    private String name;
+
+    @OneToOne(mappedBy = "locker")
+    private OneToOenMember member;
 
     public Long getId() {
         return id;
@@ -29,6 +27,4 @@ public class SimplexTeam {
     public void setName(String name) {
         this.name = name;
     }
-
-    private String name;
 }

@@ -1,4 +1,4 @@
-package simplexmapping;
+package mapping.simplexmapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -7,6 +7,7 @@ import javax.persistence.Persistence;
 
 public class SimplexMappingEx {
     public static void main(String[] args) {
+        /*
         // persistence.xml 의 persistence-unit name="hello" 를 넘긴다.
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
@@ -60,12 +61,14 @@ public class SimplexMappingEx {
             SimplexTeam newSimplexTeam = em.find(SimplexTeam.class, 100L);
             findMember.setTeam(newSimplexTeam);
 
-            tx.commit();
+            //tx.commit();
         } catch (Exception e) {
             tx.rollback();
         } finally {
             em.close();
         }
         emf.close();
+
+         */
     }
 }

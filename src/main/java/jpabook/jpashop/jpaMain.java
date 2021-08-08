@@ -11,6 +11,7 @@ import javax.persistence.Persistence;
 
 public class jpaMain {
     public static void main(String[] args) {
+        /*
         // persistence.xml 의 persistence-unit name="hello" 를 넘긴다.
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
 
@@ -35,5 +36,7 @@ public class jpaMain {
             em.close();
         }
         emf.close();
+
+         */
     }
 }

@@ -6,7 +6,7 @@ import javax.persistence.*;
 // JPA가 로딩 될때 해당 어노테이션을 보고 인식한다.
 @Entity
 //@SequenceGenerator(name = "member_seq_generator" ,sequenceName = "member_seq")
-public class PrimaryMember {
+public class Member4 {
 
     @Id //PK 설정
     // 자동으로 키값을 생성한다.
@@ -28,7 +28,7 @@ public class PrimaryMember {
     private String username;
 
     //JPA 는 기본생성자가 있어야 한다.
-    public PrimaryMember() {
+    public Member4() {
     }
 
     public Long getId() {

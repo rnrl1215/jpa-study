@@ -6,19 +6,19 @@ import java.util.List;
 
 
 @Entity
-public class FullDuplexTeam {
+public class Team3 {
 
     @Id
     @GeneratedValue
     @Column(name = "TEAM_ID")
     private Long id;
 
-    public List<FullDuplexMember> getFullDuplexMembers() {
-        return fullDuplexMembers;
+    public List<Member3> getFullDuplexMembers() {
+        return member;
     }
 
-    public void setFullDuplexMembers(List<FullDuplexMember> fullDuplexMembers) {
-        this.fullDuplexMembers = fullDuplexMembers;
+    public void setFullDuplexMembers(List<Member3> member3s) {
+        this.member = member3s;
     }
 
     // 양방향 관계를 위한 List 생성
@@ -26,8 +26,8 @@ public class FullDuplexTeam {
     // mappedBy 는 내가 무엇이랑 연결 되어 있는지 판별
     // member class의 team 변수에 맵핑이 되어있다.
     // team class 는 fullDuplexTeam 변수에 맵핑 되어있다는 뜻
-    @OneToMany( mappedBy = "fullDuplexTeam")
-    private List<FullDuplexMember> fullDuplexMembers= new ArrayList<>();
+    @OneToMany( mappedBy = "team")
+    private List<Member3> member = new ArrayList<>();
 
     public Long getId()
     {

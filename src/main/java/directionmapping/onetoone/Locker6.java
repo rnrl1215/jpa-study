@@ -3,14 +3,14 @@ package directionmapping.onetoone;
 import javax.persistence.*;
 
 @Entity
-public class Locker {
+public class Locker6 {
     @Id @GeneratedValue
     @Column(name = "OTO_LOCKER_ID")
     private Long id;
     private String name;
 
     @OneToOne(mappedBy = "locker")
-    private OneToOenMember member;
+    private Member6 member;
 
     public Long getId() {
         return id;

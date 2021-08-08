@@ -1,5 +1,5 @@
 package mapping.fullduplexmapping;
 
-public enum RoleType {
+public enum RoleType3 {
     USER,ADMIN
 }

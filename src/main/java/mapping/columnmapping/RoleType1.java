@@ -1,5 +1,5 @@
 package mapping.columnmapping;
 
-public enum RoleType {
+public enum RoleType1 {
     USER,ADMIN
 }

@@ -1,11 +1,11 @@
-package mapping.columnmapping;
+package mappingstrategy.joinstrategy;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class ColumnMappingEx {
+public class joinstartegyEx {
     public static void main(String[] args) {
 
         // persistence.xml 의 persistence-unit name="hello" 를 넘긴다.
@@ -21,10 +21,19 @@ public class ColumnMappingEx {
 
         // exception 처리를 위해 try catch 문을 반드시 사용해야된다.
         try {
-            Member1 member = new Member1(1L,"Hello");
-            em.persist(member);
+            Movie7 movie = new Movie7();
+            movie.setName("셜록");
+            movie.setDirector("누구지?");
+            movie.setActor("배네딕트컴버배치");
+            movie.setPrice(10000);
 
-            // 커밋시 insert sql을 보낸다.
+            em.persist(movie);
+            em.flush();
+            em.clear();
+
+            Movie7 findMovie = em.find(Movie7.class, movie.getId());
+            System.out.println(findMovie.getActor());
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();

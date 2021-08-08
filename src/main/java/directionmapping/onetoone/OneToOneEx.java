@@ -17,11 +17,11 @@ public class OneToOneEx {
         tx.begin();
         try {
 
-            Locker locker = new Locker();
+            Locker6 locker = new Locker6();
             locker.setName("mylocker");
             em.persist(locker);
 
-            OneToOenMember member = new OneToOenMember();
+            Member6 member = new Member6();
             member.setName("test");
             member.setLocker(locker);
             em.persist(member);

@@ -7,7 +7,7 @@ import javax.persistence.Id;
 
 
 @Entity
-public class SimplexTeam {
+public class Team2 {
 
     @Id
     @GeneratedValue

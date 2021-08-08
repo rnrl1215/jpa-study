@@ -9,7 +9,7 @@ import java.util.Date;
 // JPA가 로딩 될때 해당 어노테이션을 보고 인식한다.
 @Entity
 //@Table(name = "USER") // 테이블명 지정
-public class ColumnMember {
+public class Member1 {
 
     @Id //PK 설정
     private Long id;
@@ -30,7 +30,7 @@ public class ColumnMember {
     //DB 에는 enum 타입이 없기 때문에  Enumerated로 맵핑해준다.
     // EnumType은 무조건 String으로 한다.
     @Enumerated(EnumType.STRING)
-    private RoleType roleType;
+    private RoleType1 roleType1;
 
     // DB 에는 Date, Time, Data+time 이 있기 때문에 맵핑으로 지정해준다.
     // 날짜타입에 쓰는건데 지금은 필요없다.
@@ -49,10 +49,10 @@ public class ColumnMember {
     private String description;
 
     //JPA 는 기본생성자가 있어야 한다.
-    public ColumnMember() {
+    public Member1() {
     }
 
-    public ColumnMember(Long id, String name) {
+    public Member1(Long id, String name) {
         this.id = id;
         this.name = name;
     }

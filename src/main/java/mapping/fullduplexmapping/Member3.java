@@ -1,4 +1,5 @@
-package mapping.simplexmapping;
+package mapping.fullduplexmapping;
+
 
 import javax.persistence.*;
 
@@ -6,7 +7,7 @@ import javax.persistence.*;
 // JPA가 로딩 될때 해당 어노테이션을 보고 인식한다.
 @Entity
 //@Table(name = "USER") // 테이블명 지정
-public class SimplexMember {
+public class Member3 {
 
     @Id //PK 설정
     @GeneratedValue
@@ -33,14 +34,15 @@ public class SimplexMember {
     // 그럼 DB 와 객체를 맵핑해준것이다
     @ManyToOne
     @JoinColumn(name = "TEAM_ID")
-    private SimplexTeam simplexTeam;
+    private Team3 team;
 
-    public SimplexTeam getTeam() {
-        return simplexTeam;
+    public Team3 getTeam() {
+        return team;
     }
 
-    public void setTeam(SimplexTeam simplexTeam) {
-        this.simplexTeam = simplexTeam;
+    public void changeTeam(Team3 team) {
+        this.team = team;
+        team.getFullDuplexMembers().add(this);
     }
 
     public void setId(Long id) {
@@ -54,4 +56,5 @@ public class SimplexMember {
     public void setUsername(String username) {
         this.username = username;
     }
+
 }

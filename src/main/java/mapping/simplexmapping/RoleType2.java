@@ -1,5 +1,5 @@
 package mapping.simplexmapping;
 
-public enum RoleType {
+public enum RoleType2 {
     USER,ADMIN
 }

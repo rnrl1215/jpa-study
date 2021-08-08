@@ -1,5 +1,5 @@
 package mapping.primarykeymapping;
 
-public enum RoleType {
+public enum RoleType4 {
     USER,ADMIN
 }

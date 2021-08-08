@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 // JOIN 전략으로 간다.
-//@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 
 // 단일테이블 전략
 // DiscriminatorColumn 가 없어도 자동으로 생긴다.
@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 
 // 테이블을 다 만드는 전략
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 
 //DTYPE 을 생성해 준다.
 // 클래스 명이 들어간다.

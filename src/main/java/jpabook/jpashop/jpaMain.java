@@ -2,9 +2,7 @@ package jpabook.jpashop;
 
 
 import jpabook.jpashop.domain.Book;
-import jpabook.jpashop.domain.Item;
-import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderItem;
+import jpabook.jpashop.domain.Member;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,17 +20,30 @@ public class jpaMain {
 
         // 트랜잭션 얻어오고 실행한다.
         // JPA 는 트랜잭션 안에서 수행되어야 한다.
+
         EntityTransaction tx = em.getTransaction();
         tx.begin();
 
         // exception 처리를 위해 try catch 문을 반드시 사용해야된다.
         try {
-            Book book = new Book();
-            book.setName("JPA");
-            book.setAuthor("김영한");
 
-            em.persist(book);
-            // 커밋시 insert sql을 보낸다.
+            Member member1 = new Member();
+            member1.setName("Hi");
+            em.persist(member1);
+
+
+            Member member2 = new Member();
+            member2.setName("Hi2");
+            em.persist(member2);
+            em.flush();
+            em.clear();
+
+            Member proxyMember = em.getReference(Member.class, member1.getId());
+            Member entityMember = em.find(Member.class, member2.getId());
+            System.out.println("entityMember: "+ entityMember.getClass());
+            System.out.println("proxyMember: "+ proxyMember.getClass());
+            System.out.println("entityMember == proxyMember: "+ (entityMember.getClass() == proxyMember.getClass()));
+
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -40,7 +51,5 @@ public class jpaMain {
             em.close();
         }
         emf.close();
-
-
     }
 }

@@ -38,7 +38,8 @@ public class Member9 {
     // manytoone 을 써준다.
 
     // 프록시 객체로 조회한다.
-    @ManyToOne(fetch = FetchType.LAZY)
+    //@ManyToOne(fetch = FetchType.LAZY) 늦은 로딩
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "TEAM_ID")
     private Team9 team;
 

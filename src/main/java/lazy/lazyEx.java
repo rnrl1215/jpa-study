@@ -41,7 +41,7 @@ public class lazyEx {
             System.out.println("member9"+member9.getTeam().getClass());
 
             // 여기서 팀에대한 쿼리가 나간다.
-            System.out.println("member9"+member9.getTeam().getName());
+            //System.out.println("member9"+member9.getTeam().getName());
 
             System.out.println("====================================");
 

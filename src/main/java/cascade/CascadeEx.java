@@ -1,11 +1,14 @@
-package lazy;
+package cascade;
+
+import lazy.Member9;
+import lazy.Team9;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class lazyEx {
+public class CascadeEx {
     public static void main(String[] args) {
 
         // persistence.xml 의 persistence-unit name="hello" 를 넘긴다.
@@ -21,31 +24,33 @@ public class lazyEx {
 
         // exception 처리를 위해 try catch 문을 반드시 사용해야된다.
         try {
-            System.out.println("====================================");
-            Member9 member = new Member9("Member");
-            em.persist(member);
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            Team9 team9 = new Team9();
-            team9.setName("Team");
-            em.persist(team9);
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
 
-            member.setTeam(team9);
+            // 저장시 persist 를 3번 호출해야 저장이된다.
+            //parent 를 persist를 할 경우
+            // 같이 저장 했으면 좋겠다
+            em.persist(parent);
+            //em.persist(child1);
+            //em.persist(child2);
 
             em.flush();
             em.clear();
 
-            // 프록시로 가져온다.
-            Member9 member9 = em.find(Member9.class,member.getId());
+            // 고아객체 테스트
+            Parent findParent = em.find(Parent.class, parent.getId());
+            findParent.getChildList().remove(0);
 
-            // 팀에 대한 쿼리는 나가지 않는다 지연 로딩 때문에
-            System.out.println("member9"+member9.getTeam().getClass());
+            // parent 삭제시 같이 지워진다.
+            // parent 가 지워지기 때문에
+            // 컬렉션도 같이 날아간다.
+            em.remove(findParent);
 
-            // 여기서 팀에대한 쿼리가 나간다.
-            //System.out.println("member9"+member9.getTeam().getName());
 
-            System.out.println("====================================");
-
-            // 커밋시 insert sql을 보낸다.
             tx.commit();
         } catch (Exception e) {
             tx.rollback();
@@ -54,5 +59,4 @@ public class lazyEx {
         }
         emf.close();
     }
-
 }

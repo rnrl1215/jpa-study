@@ -16,7 +16,7 @@ public class Member6 {
     // 컬럼이름을 지정해준다.
     private String name;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "OTO_LOCKER_ID")
     private Locker6 locker;
 

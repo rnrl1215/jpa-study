@@ -9,7 +9,7 @@ public class Locker6 {
     private Long id;
     private String name;
 
-    @OneToOne(mappedBy = "locker")
+    @OneToOne(mappedBy = "locker", fetch = FetchType.LAZY)
     private Member6 member;
 
     public Long getId() {

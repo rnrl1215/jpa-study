@@ -14,7 +14,7 @@ public class Category {
     // 부모는 하나이고
     // 여러개의 자식을 가질수 있다.
     // 셀프 맵핑
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PARENT_ID")
     private Category parent;
 

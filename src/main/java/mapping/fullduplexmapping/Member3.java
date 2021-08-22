@@ -32,7 +32,7 @@ public class Member3 {
 
     // 객체 의 FK 인 Team 과 DB의 TEAM_ID 와 맵핑을 해줘야 한다.
     // 그럼 DB 와 객체를 맵핑해준것이다
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "TEAM_ID")
     private Team3 team;
 

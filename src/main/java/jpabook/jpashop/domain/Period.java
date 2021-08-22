@@ -1,8 +1,19 @@
-import javax.persistence.Embedded;
-import java.time.LocalDateTime;pac
+package jpabook.jpashop.domain;
+import javax.persistence.Embeddable;
+import java.time.LocalDateTime;
 
-@Embedded
+
+@Embeddable
 public class Period {
+    // 기본생성자는 필수이다.
+    public Period() {
+    }
+
+    public Period(LocalDateTime startDate, LocalDateTime endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 

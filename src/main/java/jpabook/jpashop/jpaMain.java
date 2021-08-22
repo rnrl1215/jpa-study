@@ -1,8 +1,10 @@
 package jpabook.jpashop;
 
 
+import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Book;
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.Period;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -29,6 +31,8 @@ public class jpaMain {
 
             Member member1 = new Member();
             member1.setName("Hi");
+            //member1.setAddress(new Address("city","street","zipcode"));
+            member1.setWorkPeriod(new Period());
             em.persist(member1);
 
 

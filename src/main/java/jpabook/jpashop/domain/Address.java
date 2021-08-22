@@ -1,12 +1,22 @@
 package jpabook.jpashop.domain;
 
-import javax.persistence.Embedded;
+import javax.persistence.Embeddable;
 
-@Embedded
+@Embeddable
 public class Address {
     private String city;
     private String street;
-    private String zipCode;
+    private String zipcode;
+
+    // 기본생성자는 필수 이다.
+    public Address() {
+    }
+
+    public Address(String city, String street, String zipCode) {
+        this.city = city;
+        this.street = street;
+        this.zipcode = zipCode;
+    }
 
     public String getCity() {
         return city;
@@ -25,10 +35,10 @@ public class Address {
     }
 
     public String getZipCode() {
-        return zipCode;
+        return zipcode;
     }
 
     public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+        this.zipcode = zipCode;
     }
 }

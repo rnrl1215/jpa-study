@@ -1,10 +1,5 @@
 package jpabook.jpashop.domain;
-
-import net.bytebuddy.asm.Advice;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,16 +18,47 @@ public class Member extends BaseEntity {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     */
+
+    @Embedded
     private Period workPeriod;
 
-    // address
-    // 이렇게 규약을 정해주면 알아보기 쉽다.
+
     /*
     private String city;
     private String street;
     private String zipCode;
     */
-    private Address address;
+
+   @Embedded
+   private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city",
+                    column=@Column(name="WORK_CITY")),
+            @AttributeOverride(name="street",
+                    column=@Column(name="WORK_STREET")),
+            @AttributeOverride(name="zipcode",
+                    column=@Column(name="WORK_ZIPCODE"))
+    })
+    private Address workAddress;
+
+
+    public Period getWorkPeriod() {
+        return workPeriod;
+    }
+
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getAddress() {
+        return homeAddress;
+    }
+
+   public void setAddress(Address address) {
+        this.homeAddress = address;
+    }
 
 
     @OneToMany(mappedBy = "member")
@@ -54,27 +80,4 @@ public class Member extends BaseEntity {
         this.name = name;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
 }

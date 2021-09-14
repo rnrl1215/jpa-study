@@ -10,8 +10,9 @@ public class Member extends BaseEntity {
     @Column(name = "MEMBER_ID")
     private Long id;
 
+
     @Column(length = 10)
-    private String name;
+    private String userName;
 
     // period
     /*
@@ -32,18 +33,6 @@ public class Member extends BaseEntity {
    @Embedded
    private Address homeAddress;
 
-    @Embedded
-    @AttributeOverrides({
-            @AttributeOverride(name="city",
-                    column=@Column(name="WORK_CITY")),
-            @AttributeOverride(name="street",
-                    column=@Column(name="WORK_STREET")),
-            @AttributeOverride(name="zipcode",
-                    column=@Column(name="WORK_ZIPCODE"))
-    })
-    private Address workAddress;
-
-
     public Period getWorkPeriod() {
         return workPeriod;
     }
@@ -52,14 +41,13 @@ public class Member extends BaseEntity {
         this.workPeriod = workPeriod;
     }
 
-    public Address getAddress() {
+    public Address getHomeAddress() {
         return homeAddress;
     }
 
-   public void setAddress(Address address) {
-        this.homeAddress = address;
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
     }
-
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
@@ -72,12 +60,12 @@ public class Member extends BaseEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-
 }

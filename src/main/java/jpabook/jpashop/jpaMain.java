@@ -29,24 +29,16 @@ public class jpaMain {
         // exception 처리를 위해 try catch 문을 반드시 사용해야된다.
         try {
 
+            Address address = new Address("city","street","10000");
+
             Member member1 = new Member();
-            member1.setName("Hi");
-            //member1.setAddress(new Address("city","street","zipcode"));
-            member1.setWorkPeriod(new Period());
+            member1.setUserName("member1");
+            member1.setHomeAddress(address);
             em.persist(member1);
 
-
-            Member member2 = new Member();
-            member2.setName("Hi2");
-            em.persist(member2);
-            em.flush();
-            em.clear();
-
-            Member proxyMember = em.getReference(Member.class, member1.getId());
-            Member entityMember = em.find(Member.class, member2.getId());
-            System.out.println("entityMember: "+ entityMember.getClass());
-            System.out.println("proxyMember: "+ proxyMember.getClass());
-            System.out.println("entityMember == proxyMember: "+ (entityMember.getClass() == proxyMember.getClass()));
+            // 변경을 할때는 완전히 다 바꿔야한다.
+            Address modifiedAddress = new Address(address.getCity(), address.getStreet(), address.getZipCode());
+            member1.setHomeAddress(modifiedAddress);
 
             tx.commit();
         } catch (Exception e) {

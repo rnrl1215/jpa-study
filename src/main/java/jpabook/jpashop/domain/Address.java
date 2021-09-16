@@ -23,23 +23,23 @@ public class Address {
         return city;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getStreet() {
         return street;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    private void setCity(String city) {
+        this.city = city;
     }
 
     public String getZipCode() {
         return zipcode;
     }
 
-    public void setZipCode(String zipCode) {
+    private void setStreet(String street) {
+        this.street = street;
+    }
+
+    private void setZipCode(String zipCode) {
         this.zipcode = zipCode;
     }
 

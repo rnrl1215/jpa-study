@@ -1,13 +1,17 @@
 package jpabook.jpashop.domain;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Table;
 import java.util.Objects;
 
 @Embeddable
+@Table(name = "ADDRESS")
 public class Address {
     private String city;
     private String street;
     private String zipcode;
+
+
 
     // 기본생성자는 필수 이다.
     public Address() {
@@ -23,20 +27,20 @@ public class Address {
         return city;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
     private void setCity(String city) {
         this.city = city;
     }
 
-    public String getZipCode() {
-        return zipcode;
+    public String getStreet() {
+        return street;
     }
 
     private void setStreet(String street) {
         this.street = street;
+    }
+
+    public String getZipCode() {
+        return zipcode;
     }
 
     private void setZipCode(String zipCode) {

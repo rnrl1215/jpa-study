@@ -1,5 +1,6 @@
 package jpabook.jpashop.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Table;
 import java.util.Objects;
@@ -7,11 +8,14 @@ import java.util.Objects;
 @Embeddable
 @Table(name = "ADDRESS")
 public class Address {
+    @Column(length = 10)
     private String city;
+
+    @Column(length = 20)
     private String street;
+
+    @Column(length = 5)
     private String zipcode;
-
-
 
     // 기본생성자는 필수 이다.
     public Address() {
@@ -46,6 +50,12 @@ public class Address {
     private void setZipCode(String zipCode) {
         this.zipcode = zipCode;
     }
+
+    // 전체 주소 출력
+    public String fullAddress() {
+        return getCity() + " " + getStreet() + " " +getZipCode();
+    }
+
 
     @Override
     public boolean equals(Object o) {

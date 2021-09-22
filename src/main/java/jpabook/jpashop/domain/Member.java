@@ -14,7 +14,7 @@ public class Member extends BaseEntity {
 
 
     @Column(name = "USER_NAME")
-    private String userName;
+    private String username;
 
     // period
     /*
@@ -106,10 +106,10 @@ public class Member extends BaseEntity {
 
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
 }

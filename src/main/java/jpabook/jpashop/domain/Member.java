@@ -50,6 +50,8 @@ public class Member extends BaseEntity {
     @CollectionTable(name = "ADDRESS", joinColumns =
         @JoinColumn(name = "MEMBER_ID")
     )
+
+
     private List<Address> addressesHistory = new ArrayList<>();
 
 

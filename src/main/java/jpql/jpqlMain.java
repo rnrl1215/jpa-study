@@ -1,16 +1,11 @@
 package jpql;
 
-
-
 import jpabook.jpashop.domain.Member;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
 
@@ -56,21 +51,23 @@ public class jpqlMain {
             List<Member> resultList = em.createQuery(cq).getResultList();
             */
 
+            System.out.println("TEST");
 
             // Native SQL
             Member member = new Member();
-            member.setUserName("TSET_NAME");
+            member.setUserName("member1");
             em.persist(member);
             em.flush();
-            List <Object[]> resultList = em.createNativeQuery("select MEMBER_ID, city, street, zipcode, USER_NAME from MEMBER")
+            // flush 는 다음 과정에서 발생한다.
+            // commit 할 경우와 query가 날라가는 경우이다.
+
+
+            // Member 로 할 경우 모든 필드가 다 들어가야한다.
+            List <Member> resultList = em.createNativeQuery("select MEMBER_ID, USER_NAME from Member",Member.class)
                     .getResultList();
 
-            for(Object[] row : resultList) {
-                System.out.println(row[0]);
-                System.out.println(row[1]);
-                System.out.println(row[2]);
-                System.out.println(row[3]);
-                System.out.println(row[4]);
+            for(Member JPQLMember1 : resultList) {
+                System.out.println(JPQLMember1.getUserName());
             }
 
             tx.commit();

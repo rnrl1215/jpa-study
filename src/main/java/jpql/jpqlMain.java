@@ -1,11 +1,7 @@
 package jpql;
 
-import jpabook.jpashop.domain.Member;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
+import java.time.temporal.TemporalAmount;
 import java.util.List;
 
 
@@ -18,57 +14,116 @@ public class jpqlMain {
         tx.begin();
 
         try {
-            // JPQL 예제
-            /*
-            String qlString = "select m from Member m where m.username like '%kim%'";
-            List<Member> result = em.createQuery(qlString,
-                            Member.class).getResultList();
 
-            for (Member member : result) {
-                System.out.println("member =" + member);
-            }
-            */
+            JPQLTeam team = new JPQLTeam();
+            team.setName("teamA");
+            em.persist(team);
 
-            // Criteria 예제
-            // 실무에서는 사용하지 않는다.
-            // 단순한 예제는 쉽지만 복잡한 쿼리에서는 힘들다.
-            // 장점 동적쿼리 및 문법오류를 줄일수 있다.
+            JPQLMember member = new JPQLMember();
+            member.setUsername("teamA");
+            member.setAge(10);
+            member.setTeam(team);
+            member.setType(MemberType.ADMIN);
 
-            /*
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Member> query = cb.createQuery(Member.class); // 멤버에 대한쿼리를 한다.
-            Root<Member> m = query.from(Member.class);
-
-            CriteriaQuery<Member> cq =  query.select(m);
-
-            // 아래 처럼 동적 쿼리를 짤수 있다.
-            // 사용자 이름 여부에대해서 동적쿼리를 다음과같이 작성함.
-            String username = "kim";
-            if (username != null) {
-                cq.where().where(cb.equal(m.get("username"),"kim")); // equal 로 비교
-            }
-
-            List<Member> resultList = em.createQuery(cq).getResultList();
-            */
-
-            System.out.println("TEST");
-
-            // Native SQL
-            Member member = new Member();
-            member.setUserName("member1");
             em.persist(member);
             em.flush();
-            // flush 는 다음 과정에서 발생한다.
-            // commit 할 경우와 query가 날라가는 경우이다.
 
-
-            // Member 로 할 경우 모든 필드가 다 들어가야한다.
-            List <Member> resultList = em.createNativeQuery("select MEMBER_ID, USER_NAME from Member",Member.class)
+            // 쿼리로 불러오면 영속성 컨텍스트에 들어 갈까?
+            //  엔티티 프로젝션
+            List <JPQLMember> entityResult1 = em.createNativeQuery("select MEMBER_ID, USER_NAME from JPQLMember", JPQLMember.class)
                     .getResultList();
 
-            for(Member JPQLMember1 : resultList) {
-                System.out.println(JPQLMember1.getUserName());
+            // 관리가 됨.
+            JPQLMember findMember = entityResult1.get(0);
+            findMember.setUsername("member2");
+
+            // 엔티티 프로젝션
+            // 팀 불러오기
+            // 알아보기 쉽게 join을 직접 써주자. 예측을 할 수 있다.
+            List<JPQLTeam> entityResult2 = em.createQuery("select t from JPQLMember m join m.team t", JPQLTeam.class)
+                    .getResultList();
+
+
+            //임베디드 프로젝션
+            List<JPQLAddress> resultList = em.createQuery("select m.address from JPQLOrder m", JPQLAddress.class)
+                    .getResultList();
+
+            // 스칼라 프로젝션
+            // 스칼라 타입 조회
+
+            // 쿼리
+           List<Object[]> scalarResult = em.createQuery("select m.username, m.age from JPQLMember m")
+                    .getResultList();
+
+            // object 배열로 조회
+            Object[] objArray = scalarResult.get(0);
+            System.out.println("resultList1 = " + objArray[0]);
+            System.out.println("resultList1 = " + objArray[1]);
+
+
+            // new 를 이용하여 조회
+            // 쿼리문에 new 를 써줘야한다. 패키지명이 다들어가야 한다.
+            List<MemberDTO> dtoResult = em.createQuery("select new jpql.MemberDTO(m.username, m.age)from JPQLMember m", MemberDTO.class)
+                    .getResultList();
+
+            MemberDTO memberDTO = dtoResult.get(0);
+
+            // paging 예제 0 번째 부터 최대 n 개까지 출력
+            List<JPQLMember> pagingResult = em.createQuery("select m from JPQLMember m order by m.age desc", JPQLMember.class)
+                    .setFirstResult(1)
+                    .setMaxResults(10)
+                    .getResultList();
+
+
+            for (JPQLMember member1 : pagingResult) {
+                System.out.println("member1 = "+member1);
             }
+
+            System.out.println("===================inner join===================");
+            String innerJoinQuery = "select m from JPQLMember m join m.team t";
+            List<JPQLMember> innerJoinResult = em.createQuery(innerJoinQuery, JPQLMember.class)
+                    .getResultList();
+
+
+            System.out.println("===================left join===================");
+            String leftJoinQuery = "select m from JPQLMember m left join m.team t";
+            List<JPQLMember> lefterJoinResult = em.createQuery(leftJoinQuery, JPQLMember.class)
+                    .getResultList();
+
+            System.out.println("===================theta join===================");
+            String thetaQuery = "select m from JPQLMember m, JPQLTeam t where m.username = t.name";
+            List<JPQLMember> thetaJoinResult = em.createQuery(thetaQuery, JPQLMember.class)
+                    .getResultList();
+
+
+            System.out.println("===================on join1===================");
+            String onJoinQuery1 = "select m from JPQLMember m left join m.team t on t.name = 'teamA'";
+            List<JPQLMember> onJoinResult1 = em.createQuery(onJoinQuery1, JPQLMember.class)
+                    .getResultList();
+
+
+            System.out.println("===================on join2===================");
+            String onJoinQuery2 = "select m from JPQLMember m left join JPQLTeam t on m.username = t.name";
+            List<JPQLMember> onJoinResult2 = em.createQuery(onJoinQuery2, JPQLMember.class)
+                    .getResultList();
+
+            System.out.println("===================SUB1===================");
+            String subQuery1 = "select m from JPQLMember m where m.age > (select avg(m2.age) from JPQLMember m2)";
+            List<JPQLMember> subQueryResult1 = em.createQuery(subQuery1, JPQLMember.class)
+                    .getResultList();
+
+            System.out.println("===================TYPE===================");
+            String query2 = "select m.username, 'HELLO', true from JPQLMember m where m.type = :userType";
+            List<Object[]> scalarResult2 = em.createQuery(query2)
+                    .setParameter("userType", MemberType.ADMIN)
+                    .getResultList();
+
+            for (Object[] obj : scalarResult2) {
+                System.out.println("member1 = "+obj[0]);
+                System.out.println("member1 = "+obj[1]);
+                System.out.println("member1 = "+obj[2]);
+            }
+
 
             tx.commit();
         } catch (Exception e) {

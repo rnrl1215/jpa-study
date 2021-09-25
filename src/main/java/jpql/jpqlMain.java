@@ -1,7 +1,7 @@
 package jpql;
 
 import javax.persistence.*;
-import java.time.temporal.TemporalAmount;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -19,13 +19,34 @@ public class jpqlMain {
             team.setName("teamA");
             em.persist(team);
 
-            JPQLMember member = new JPQLMember();
-            member.setUsername("teamA");
-            member.setAge(10);
-            member.setTeam(team);
-            member.setType(MemberType.ADMIN);
+            JPQLMember member1 = new JPQLMember();
+            member1.setUsername("teamA");
+            member1.setAge(10);
+            member1.setTeam(team);
+            member1.setType(MemberType.ADMIN);
 
-            em.persist(member);
+            em.persist(member1);
+
+            JPQLTeam team1 = new JPQLTeam();
+            team1.setName("teamB");
+            em.persist(team1);
+
+            JPQLMember member2 = new JPQLMember();
+            member2.setUsername(null);
+            member2.setAge(10);
+            member2.setTeam(team);
+            member2.setType(MemberType.ADMIN);
+
+            em.persist(member2);
+
+            JPQLMember member3 = new JPQLMember();
+            member3.setUsername("member3");
+            member3.setAge(13);
+            member3.setTeam(team);
+            member3.setType(MemberType.ADMIN);
+
+            em.persist(member3);
+
             em.flush();
 
             // 쿼리로 불러오면 영속성 컨텍스트에 들어 갈까?
@@ -69,14 +90,15 @@ public class jpqlMain {
             MemberDTO memberDTO = dtoResult.get(0);
 
             // paging 예제 0 번째 부터 최대 n 개까지 출력
+            System.out.println("===================paging===================");
             List<JPQLMember> pagingResult = em.createQuery("select m from JPQLMember m order by m.age desc", JPQLMember.class)
                     .setFirstResult(1)
                     .setMaxResults(10)
                     .getResultList();
 
 
-            for (JPQLMember member1 : pagingResult) {
-                System.out.println("member1 = "+member1);
+            for (JPQLMember m : pagingResult) {
+                System.out.println("m = "+m);
             }
 
             System.out.println("===================inner join===================");
@@ -124,6 +146,90 @@ public class jpqlMain {
                 System.out.println("member1 = "+obj[2]);
             }
 
+            // case when 예제
+            String select = "select case when m.age <= 10 then '학생요금' when m.age >= 60 then '경로요금' else '일반요금' end from JPQLMember m";
+            List<String> resultList1 = em.createQuery(select, String.class).getResultList();
+
+            for(String s : resultList1) {
+                System.out.println("s = "+s);
+            }
+
+            // coalesce 예제
+            String selectCoalesce = "select coalesce(m.username,'이름없는회원') as username from JPQLMember m";
+            List<String> resultList2 = em.createQuery(selectCoalesce, String.class).getResultList();
+
+            for(String s : resultList2) {
+                System.out.println("s = "+s);
+            }
+
+            // nullif 예제
+            String query = "select nullif(m.username,'teamA') as username from JPQLMember m";
+            List<String> resultList3 = em.createQuery(query, String.class).getResultList();
+
+            for(String s : resultList3) {
+                System.out.println("s = "+s);
+            }
+
+            // CONCAT 예제
+            String concatQuery = "select concat('a', 'b') as username from JPQLMember m";
+            List<String> concatResult = em.createQuery(concatQuery, String.class).getResultList();
+
+            for(String s : concatResult) {
+                System.out.println("s = "+s);
+            }
+
+            // SUBSTRING 예제
+            String subStringQuery = "select substring(m.username, 2,3) as username from JPQLMember m";
+            List<String> subStringResult = em.createQuery(subStringQuery, String.class).getResultList();
+
+            for(String s : subStringResult) {
+                System.out.println("s = "+s);
+            }
+
+            // locate 예제
+            String locateQuery = "select locate('de','abcde') as username from JPQLMember m";
+            List<Integer> locateResult = em.createQuery(locateQuery, Integer.class).getResultList();
+
+            for(Integer s : locateResult) {
+                System.out.println("s = "+s);
+            }
+
+
+            // SIZE
+            String sizeQuery = "select size(m.members) from JPQLTeam m";
+            List<Integer> sizeResult = em.createQuery(sizeQuery, Integer.class).getResultList();
+
+            for(Integer s : sizeResult) {
+                System.out.println("s = "+s);
+            }
+
+
+            // 사용자 정의함수 예제
+            String customFunctionQuery = "select function('group_concat', m.username)  from JPQLMember m";
+            List<String> customFunctionResult = em.createQuery(customFunctionQuery, String.class).getResultList();
+
+            for(String s : customFunctionResult) {
+                System.out.println("s = "+s);
+            }
+
+
+            // collection 예제
+            String collectionQuery = "select t.members from JPQLTeam t";
+            List<Collection> result = em.createQuery(collectionQuery, Collection.class)
+                    .getResultList();
+
+            System.out.println("getCollection = " + result);
+
+
+            // members 에서 username을 가져오고 싶은경우
+            // 직접 join 문을 써서 별칭으로 가져온후 접근한다.
+            String collectionQuery2 = "select m.username from JPQLTeam t join t.members m";
+            List<String> result2 = em.createQuery(collectionQuery2, String.class)
+                    .getResultList();
+
+            for(String name : result2) {
+                System.out.println("getCollection = " + name);
+            }
 
             tx.commit();
         } catch (Exception e) {

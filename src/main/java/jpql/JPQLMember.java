@@ -10,6 +10,7 @@ public class JPQLMember {
 
     @Column(name = "USER_NAME")
     private String username;
+
     private int age;
 
     @Enumerated(EnumType.STRING)

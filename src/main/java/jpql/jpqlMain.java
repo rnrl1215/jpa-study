@@ -15,48 +15,58 @@ public class jpqlMain {
 
         try {
 
-            JPQLTeam team = new JPQLTeam();
-            team.setName("teamA");
-            em.persist(team);
+            JPQLTeam teamA = new JPQLTeam();
+            teamA.setName("teamA");
+            em.persist(teamA);
+
+            JPQLTeam teamB = new JPQLTeam();
+            teamB.setName("teamB");
+            em.persist(teamB);
+
+            JPQLTeam teamC = new JPQLTeam();
+            teamC.setName("teamC");
+            em.persist(teamC);
 
             JPQLMember member1 = new JPQLMember();
-            member1.setUsername("teamA");
+            member1.setUsername("회원1");
             member1.setAge(10);
-            member1.setTeam(team);
+            member1.setTeam(teamA);
             member1.setType(MemberType.ADMIN);
-
             em.persist(member1);
 
-            JPQLTeam team1 = new JPQLTeam();
-            team1.setName("teamB");
-            em.persist(team1);
 
             JPQLMember member2 = new JPQLMember();
-            member2.setUsername(null);
+            member2.setUsername("회원2");
             member2.setAge(10);
-            member2.setTeam(team);
+            member2.setTeam(teamA);
             member2.setType(MemberType.ADMIN);
-
             em.persist(member2);
 
             JPQLMember member3 = new JPQLMember();
-            member3.setUsername("member3");
+            member3.setUsername("회원3");
             member3.setAge(13);
-            member3.setTeam(team);
+            member3.setTeam(teamB);
             member3.setType(MemberType.ADMIN);
-
             em.persist(member3);
 
+            JPQLMember member4 = new JPQLMember();
+            member4.setUsername("회원4");
+            member4.setAge(13);
+            //member4.setTeam(null);
+            member4.setType(MemberType.ADMIN);
+            em.persist(member4);
+
             em.flush();
+            em.clear();
 
             // 쿼리로 불러오면 영속성 컨텍스트에 들어 갈까?
             //  엔티티 프로젝션
-            List <JPQLMember> entityResult1 = em.createNativeQuery("select MEMBER_ID, USER_NAME from JPQLMember", JPQLMember.class)
+            List <JPQLMember> entityResult1 = em.createNativeQuery("select MEMBER_ID, USER_NAME, age, TEAM_ID, type from JPQLMember", JPQLMember.class)
                     .getResultList();
 
             // 관리가 됨.
-            JPQLMember findMember = entityResult1.get(0);
-            findMember.setUsername("member2");
+            //JPQLMember findMember = entityResult1.get(0);
+            //findMember.setUsername("member2");
 
             // 엔티티 프로젝션
             // 팀 불러오기
@@ -146,6 +156,7 @@ public class jpqlMain {
                 System.out.println("member1 = "+obj[2]);
             }
 
+            System.out.println("===================함수예제===================");
             // case when 예제
             String select = "select case when m.age <= 10 then '학생요금' when m.age >= 60 then '경로요금' else '일반요금' end from JPQLMember m";
             List<String> resultList1 = em.createQuery(select, String.class).getResultList();
@@ -229,6 +240,19 @@ public class jpqlMain {
 
             for(String name : result2) {
                 System.out.println("getCollection = " + name);
+            }
+
+
+            System.out.println("===================fetch join===================");
+
+            // members 에서 username을 가져오고 싶은경우
+            // 직접 join 문을 써서 별칭으로 가져온후 접근한다.
+            String fetchJoinQuery = "select m from JPQLMember m";
+            List<JPQLMember> fetchJoinResult = em.createQuery(fetchJoinQuery, JPQLMember.class)
+                    .getResultList();
+
+            for (JPQLMember member : fetchJoinResult) {
+                System.out.println("fetchJoinResult = "+ member.getUsername()+","+member.getTeam().getName());
             }
 
             tx.commit();

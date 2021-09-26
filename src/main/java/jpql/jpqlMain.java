@@ -49,13 +49,6 @@ public class jpqlMain {
             member3.setType(MemberType.ADMIN);
             em.persist(member3);
 
-            JPQLMember member4 = new JPQLMember();
-            member4.setUsername("회원4");
-            member4.setAge(13);
-            //member4.setTeam(null);
-            member4.setType(MemberType.ADMIN);
-            em.persist(member4);
-
             em.flush();
             em.clear();
 
@@ -245,15 +238,40 @@ public class jpqlMain {
 
             System.out.println("===================fetch join===================");
 
+            // 영속성 컨텍스트에서 제거.
+            em.clear();
+
             // members 에서 username을 가져오고 싶은경우
             // 직접 join 문을 써서 별칭으로 가져온후 접근한다.
-            String fetchJoinQuery = "select m from JPQLMember m";
+
+            // fetch 를 써서 한번에 다 가져온다. 컬렉션에 담기는 데이터는 프로시가 아닌 진짜 데이터가 담긴다.
+            //String fetchJoinQuery = "select m from JPQLMember m";
+            String fetchJoinQuery = "select m from JPQLMember m join fetch m.team";
             List<JPQLMember> fetchJoinResult = em.createQuery(fetchJoinQuery, JPQLMember.class)
                     .getResultList();
 
             for (JPQLMember member : fetchJoinResult) {
                 System.out.println("fetchJoinResult = "+ member.getUsername()+","+member.getTeam().getName());
+                //회원1, 팀A(SQL)
+                //회원2, 팀A(1차캐시)
+                //회원3, 팀B(SQL)
             }
+
+            String fetchJoinQuery2 = "select t from JPQLTeam t join fetch t.members";
+            List<JPQLTeam> fetchJoinResult2 = em.createQuery(fetchJoinQuery2, JPQLTeam.class)
+                    .getResultList();
+
+            for (JPQLTeam team : fetchJoinResult2) {
+                System.out.println("fetchJoinResult2= " + team.getName() + "," + team.getMembers().size());
+                //회원1, 팀A(SQL)
+                //회원2, 팀A(1차캐시)
+                //회원3, 팀B(SQL)
+                for(JPQLMember member : team.getMembers()) {
+                    System.out.println("-> Member= " + member.getUsername());
+                }
+            }
+
+
 
             tx.commit();
         } catch (Exception e) {

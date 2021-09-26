@@ -257,7 +257,8 @@ public class jpqlMain {
                 //회원3, 팀B(SQL)
             }
 
-            String fetchJoinQuery2 = "select t from JPQLTeam t join fetch t.members";
+            //String fetchJoinQuery2 = "select t from JPQLTeam t join fetch t.members";
+            String fetchJoinQuery2 = "select DISTINCT t from JPQLTeam t join fetch t.members where t.name = 'teamA'"; //중복제거
             List<JPQLTeam> fetchJoinResult2 = em.createQuery(fetchJoinQuery2, JPQLTeam.class)
                     .getResultList();
 
@@ -266,9 +267,6 @@ public class jpqlMain {
                 //회원1, 팀A(SQL)
                 //회원2, 팀A(1차캐시)
                 //회원3, 팀B(SQL)
-                for(JPQLMember member : team.getMembers()) {
-                    System.out.println("-> Member= " + member.getUsername());
-                }
             }
 
 

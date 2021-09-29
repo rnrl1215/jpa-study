@@ -269,7 +269,14 @@ public class jpqlMain {
                 //회원3, 팀B(SQL)
             }
 
+            int resultCount = em.createQuery("update JPQLMember m set m.age = 20")
+                    .executeUpdate();// 한방에 업데이트 시킨다.
 
+            System.out.println("before clear: member1 age = "+member1.getAge());
+
+            em.clear();
+
+            System.out.println("after clear: member1 age = "+member1.getAge());
 
             tx.commit();
         } catch (Exception e) {
